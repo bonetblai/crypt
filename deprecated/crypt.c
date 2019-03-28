@@ -140,6 +140,11 @@ int main(int argc, char **argv) {
   int   soption = 0;
   char  *password;
 
+  if (argc==1) {
+      printf("usage: crypt [-s] <key>\n");
+      exit(1);
+  }
+
   /* Check for the '-s' switch, the only supported option. */
   if (argc > 1 && argv[1][0] == '-' && argv[1][1] == 's') {
     argc--;
