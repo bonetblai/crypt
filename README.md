@@ -11,31 +11,40 @@ Cryptographic encryption/decryption of files
 
 ```openssl genrsa -des3 -out secret.key 2048```
 
-Generate public key using secret key (need keyphrase for secret key from stdin):
-openssl rsa -in secret.key -out public.key -outform PEM -pubout
+2. Generate public key using secret key (need keyphrase for secret key from stdin):
 
-- Encrypt datafile using random key for single use
+```openssl rsa -in secret.key -out public.key -outform PEM -pubout```
 
-Generate random key for single use (128 is key length):
-openssl rand -base64 -out random.key 128
+### Encrypt datafile using random key for single use
 
-Encrypt datafile with random key (store in base64, -A is for single-line output):
-openssl enc -aes-256-cbc -a -A -salt -in datafile -out datafile.crypt.base64 -pass file:random.key
+1. Generate random key for single use (128 is key length):
 
-Encrypt random key with public key:
-openssl rsautl -encrypt -inkey public.key -pubin -in random.key -out random.key.crypt
+```openssl rand -base64 -out random.key 128```
 
-Encode encrypted random key with base64 (-A is single-line output):
-openssl base64 -A -in random.key.crypt -out random.key.crypt.base64
+2. Encrypt datafile with random key (store in base64, -A is for single-line output):
 
-Concat encrypted random key and encrypted data file into single bundle:
-cat random.key.crypt.base64 datafile.crypt.base64 > bundle.crypt.base64
+```openssl enc -aes-256-cbc -a -A -salt -in datafile -out datafile.crypt.base64 -pass file:random.key```
 
-- Decrypt cryptographic bundle:
+3. Encrypt random key with public key:
 
-Separate bundle into random.key.crypt.base64 and datafile.crypt.base64
+```openssl rsautl -encrypt -inkey public.key -pubin -in random.key -out random.key.crypt```
+
+4. Encode encrypted random key with base64 (-A is single-line output):
+
+```openssl base64 -A -in random.key.crypt -out random.key.crypt.base64```
+
+5. Concat encrypted random key and encrypted data file into single (cryptographic) bundle:
+
+```cat random.key.crypt.base64 datafile.crypt.base64 > bundle.crypt.base64```
+
+### Decrypt cryptographic bundle
+
+1. Separate bundle into `random.key.crypt.base64` and `datafile.crypt.base64`
+
+```
 head -1 bundle.crypt.base64 > random.key.crypt.base64
 tail -1 bundle.crypt.base64 > datafile.key.crypt.base64
+```
 
 Decode base64 encrypted random key (-A is single-line input):
 openssl base64 -A -d -in random.key.crypt.base64 -out random.key.crypt
