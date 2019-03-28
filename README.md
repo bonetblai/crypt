@@ -60,12 +60,20 @@ head -1 bundle.crypt.base64 > random.key.crypt.base64
 tail -1 bundle.crypt.base64 > datafile.key.crypt.base64
 ```
 
-Decode base64 encrypted random key (-A is single-line input):
+2. Decode base64 encrypted random key (-A is single-line input):
+
+```shell
 openssl base64 -A -d -in random.key.crypt.base64 -out random.key.crypt
+```
 
-Decode encrypted random key using secret key (need keyphrase for secret key):
+3. Decode encrypted random key using secret key (need keyphrase for secret key):
+
+```shell
 openssl rsautl -decrypt -inkey secret.key -in random.key.crypt -out random.key
+```
 
-Decode datafile using decoded random key (-A is single-line input):
+4. Decode datafile using decoded random key (-A is single-line input):
+
+```shell
 openssl enc -d -a -A -aes-256-cbc -in datafile.crypt.base64 -out datafile -pass file:random.key
-
+```
