@@ -3,12 +3,13 @@
 Cryptographic encryption/decryption of files
 
 
-OpenSSL based encryption/decryption of datafiles
+# OpenSSL based encryption/decryption of datafiles
 
-- Generate secret/public keys for RSA:
+1. Generate secret/public keys for RSA:
 
-Generate secret key (need keyphrase from stdin):
-openssl genrsa -des3 -out secret.key 2048
+* Generate secret key (need keyphrase from stdin):
+
+```openssl genrsa -des3 -out secret.key 2048```
 
 Generate public key using secret key (need keyphrase for secret key from stdin):
 openssl rsa -in secret.key -out public.key -outform PEM -pubout
