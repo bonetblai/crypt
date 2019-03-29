@@ -2,6 +2,19 @@
 
 Cryptographic encryption/decryption of files
 
+Implements 3 executables using openssl:
+
+* `make_secret_key.bash <file> <num-bits>` to make a pair of private/public keys
+for encryption. The number of bits in the keys are equal to &lt;num-bits&gt;.
+
+* `make_random_passphrase.bash` to create a random passphrase for creating 
+(secret) keys. The passphrase is of format &lt;part1&gt;-&lt;part2&gt;-&lt;part3&gt;
+where each part is a 3 byte random string of hexadecimal digits.
+
+* `crypt.bash [e|d] <filename-secret-key> <file>` to encrypt &lt;file&gt;
+using the given secret key. For decrypting files, you may need to enter
+the passphrase associated with the key.
+
 
 ## OpenSSL based encryption/decryption of datafiles
 

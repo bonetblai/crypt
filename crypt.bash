@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$#" -ne 3 ]; then
-    echo "Usage: crypt.bash [e|d] <id-secret-public-keys> <file> (you may need to enter keyphrase for secret key)"
+    echo "Usage: crypt.bash [e|d] <filename-secret-key> <file> (you may need to enter keyphrase for secret key)"
     echo "Examples: encrypt: crypt.bash e secret_key <datafile>"
     echo "          decrypt: crypt.bash d secret_key <bundle>"
     exit
