@@ -21,7 +21,7 @@ if [ "$mode" == "e" ]; then
     openssl rand -base64 -out ${tempfolder}/random.key 128
 
     #echo "Encrypting data with random key ..."
-    openssl enc -aes-256-cbc -a -salt -in ${datafile} -out ${tempfolder}/datafile.crypt.base64 -pass file:${tempfolder}/random.key
+    openssl enc -aes-256-cbc -a -salt -in ${datafile} -out ${tempfolder}/datafile.crypt.base64 -pass file:${tempfolder}/random.key -md md5
 
     #echo "Encrypting random key with public key ..."
     openssl rsautl -encrypt -inkey ${public_key} -pubin -in ${tempfolder}/random.key -out ${tempfolder}/random.key.crypt
@@ -51,7 +51,7 @@ else
     openssl rsautl -decrypt -inkey ${secret_key} -in ${tempfolder}/random.key.crypt -out ${tempfolder}/random.key
 
     #echo "Decoding encrypted data with decoded random key ..."
-    openssl enc -d -a -aes-256-cbc -in ${tempfolder}/datafile.crypt.base64 -out ${tempfolder}/datafile -pass file:${tempfolder}/random.key
+    openssl enc -d -a -aes-256-cbc -in ${tempfolder}/datafile.crypt.base64 -out ${tempfolder}/datafile -pass file:${tempfolder}/random.key -md md5
 
     #echo "Removing intermidate files ..."
     rm ${tempfolder}/datafile.crypt.base64 ${tempfolder}/random.key.crypt.base64 ${tempfolder}/random.key.crypt ${tempfolder}/random.key
