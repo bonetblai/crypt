@@ -43,7 +43,7 @@ openssl rand -base64 -out random_key 128
 2. Encrypt datafile with random key (store in base64, -A is for single-line output):
 
 ```shell
-openssl enc -aes-256-cbc -a -A -salt -in datafile -out datafile.crypt.base64 -pass file:random_key
+openssl enc -aes-256-cbc -a -A -salt -in datafile -out datafile.crypt.base64 -pass file:random_key -md md5
 ```
 
 3. Encrypt random key with public key:
@@ -88,5 +88,5 @@ openssl rsautl -decrypt -inkey secret_key -in random_key.crypt -out random_key
 4. Decode datafile using decoded random key (-A is single-line input):
 
 ```shell
-openssl enc -d -a -A -aes-256-cbc -in datafile.crypt.base64 -out datafile -pass file:random_key
+openssl enc -d -a -A -aes-256-cbc -in datafile.crypt.base64 -out datafile -pass file:random_key -md md5
 ```
