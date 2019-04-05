@@ -2,8 +2,8 @@
 
 if [ "$#" -ne 3 ]; then
     echo "Usage: crypt.bash [e|d] <filename-secret-key> <file> (you may need to enter keyphrase for secret key)"
-    echo "Examples: encrypt: crypt.bash e secret_key <datafile>"
-    echo "          decrypt: crypt.bash d secret_key <bundle>"
+    echo "Examples: encrypt: crypt.bash e secret_key <datafile> (generates <crypto-bundle>)"
+    echo "          decrypt: crypt.bash d secret_key <crypto-bundle> (generates <datafile>)"
     exit
 fi
 
@@ -17,7 +17,7 @@ tempfolder=$(mktemp -d tempfolder.XXXX)
 #echo "Tempfolder is ${tempfolder}"
 
 if [ "$mode" == "e" ]; then
-    #echo "Generating random key for single use of 128 bits ..."
+    #echo "Generating random key of 128 bits for single use ..."
     openssl rand -base64 -out ${tempfolder}/random.key 128
 
     #echo "Encrypting data with random key ..."
@@ -26,7 +26,7 @@ if [ "$mode" == "e" ]; then
     #echo "Encrypting random key with public key ..."
     openssl rsautl -encrypt -inkey ${public_key} -pubin -in ${tempfolder}/random.key -out ${tempfolder}/random.key.crypt
 
-    #echo "Encoding encrypted random key with base64 ..."
+    #echo "Encoding encrypted random key in base64 ..."
     openssl base64 -A -in ${tempfolder}/random.key.crypt -out ${tempfolder}/random.key.crypt.base64
 
     #echo "Generating cryptographic bundle ..."
